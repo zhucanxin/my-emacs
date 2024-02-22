@@ -1,0 +1,100 @@
+;;(menu-bar-mode -1)
+;;(tool-bar-mode -1)
+;;default-coding-systems 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+(setq gc-cons-threshold most-positive-fixnum)
+
+'(use-package benchmark-init
+   :init (benchmark-init/activate)
+   :hook (after-init . benchmark-init/deactivate))
+(defalias 'yes-or-no-p 'y-or-n-p)
+'(use-package emacs
+   :config (defalias 'yes-or-no-p 'y-or-n-p))
+'(use-package drag-stuff
+   :bind (("<M-up>" . drag-stuff-up)
+	  ("<M-down>" . drag-stuff-down)))
+'(use-package company
+   :hook (after-init . global-company-mode)
+   :config (setq company-minimum-prefix-length 1
+		 company-show-quick-access t))
+(global-set-key (kbd "C-c <left>") 'windmove-left)
+(global-set-key (kbd "C-c <right>") 'windmove-right)
+(global-set-key (kbd "C-c <up>") 'windmove-up)
+(global-set-key (kbd "C-c <down>") 'windmove-down)
+(setq-default word-wrap t)
+(add-hook 'org-mode-hook (lambda()(setq truncate-lines nil)))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(word-wrap t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+
+
+;;子龙山人  master  21 天 学会emacs
+;; 关闭工具栏，tool-bar-mode 即为一个 Minor Mode
+(tool-bar-mode -1)
+
+;; 关闭文件滑动控件
+(scroll-bar-mode -1)
+
+;; 显示行号
+					;(global-linum-mode 1)
+
+;; 更改光标的样式（不能生效，解决方案见第二集）
+(setq cursor-type 'bar)
+
+;; 关闭启动帮助画面
+(setq inhibit-splash-screen 1)
+
+;; 关闭缩进 (第二天中被去除)
+;; (electric-indent-mode -1)
+
+;; 更改显示字体大小 16pt
+;; http://stackoverflow.com/questions/294664/how-to-set-the-font-size-in-emacs
+(set-face-attribute 'default nil :height 160)
+
+;; 快速打开配置文件
+(defun open-init-file()
+  (interactive)
+  (find-file "~/.emacs"))
+
+;; 这一行代码，将函数 open-init-file 绑定到 <f2> 键上
+(global-set-key (kbd "<f2>") 'open-init-file)
+
+;; 快速加载配置文件
+(defun load-file-.emacs()
+  (interactive)
+  (load-file "~/.emacs"))
+;; 这一行代码，将函数 load-file 绑定到 <f3> 键上
+(global-set-key (kbd "<f3>") 'load-file-.emacs)
+
+
+(global-set-key (kbd "C-2") 'set-mark-command)					;设置=标记的快键为C-2
+					;(custom-set-variables
+;; custom-set-variables was added by Custom.
+;; If you edit it by hand, you could mess it up, so be careful.
+;; Your init file should contain only one such instance.
+;; If there is more than one, they won't work right.
+					;'(cua-mode t nil (cua-base)))
+					;(custom-set-faces)
+;; custom-set-faces was added by Custom.
+;; If you edit it by hand, you could mess it up, so be careful.
+;; Your init file should contain only one such instance.
+;; If there is more than one, they won't work right.
+
+;;格式化整个文件的函数
+(defun indent-whole()
+  (interactive)
+  (indent-region (point-min) (point-max))
+  (message "全文格式化缩进完毕"))
+;;绑定到F7上
+(global-set-key (kbd  "<f7>") 'indent-whole)
