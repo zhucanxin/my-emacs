@@ -1,3 +1,19 @@
+;;;;来自菜单上的设置
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(completion-auto-select t)
+ '(eww-search-prefix "https://www.baidu.com/?q=")
+ '(package-selected-packages '(org-bullets use-package))
+ '(tab-bar-mode t)
+ '(warning-suppress-log-types '((use-package) (use-package)))
+ '(warning-suppress-types '((use-package) (use-package)))
+ '(word-wrap t))
+
+
+
 ;;(menu-bar-mode -1)
 ;;(tool-bar-mode -1)
 ;;default-coding-systems 'utf-8)
@@ -36,7 +52,24 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+;;;;软件源设置    来自图灵第273页
+(setq package-archives '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+			 ("gnu" . "http://mirrors.tsinghua.cn/elpa/gnu")
+			 ("org" . "http://mirrors.tsinghua.cn/elpa/org")))
+(setq package-check-signature nil)
+(require 'package)
+(unless (bound-and-true-p package--initialized)
+  (package-initialize))
+(unless package-archive-contents (package-refresh-contents)
+        (package-install 'use-package))
+(use-package restart-emacs)
+(require 'chinese-menu)
+(require 'english-menu)
+(require 'mule-menu)
 
+;;;;美化org-mode的显示页面
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda() (org-bullets-mode 1)))
 
 
 ;;子龙山人  master  21 天 学会emacs
@@ -78,8 +111,8 @@
 (global-set-key (kbd "<f3>") 'load-file-.emacs)
 
 
-(global-set-key (kbd "C-2") 'set-mark-command)					;设置=标记的快键为C-2
-					;(custom-set-variables
+;;设置=标记的快键为C-2				
+(global-set-key (kbd "C-2") 'set-mark-command)						;;(custom-set-variables
 ;; custom-set-variables was added by Custom.
 ;; If you edit it by hand, you could mess it up, so be careful.
 ;; Your init file should contain only one such instance.
@@ -98,3 +131,5 @@
   (message "全文格式化缩进完毕"))
 ;;绑定到F7上
 (global-set-key (kbd  "<f7>") 'indent-whole)
+;;选中区域进行插入时,采用替代模式
+(delete-selection-mode 1)
